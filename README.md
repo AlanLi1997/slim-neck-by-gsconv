@@ -1,11 +1,14 @@
 # Slim-neck by GSConv
 
 <p align="left"><img width="800" src="https://github.com/AlanLi1997/slim-neck-by-gsconv/blob/main/slim%20neck%20by%20gsconv.png"></p>
-  trained datasets:
+  Datasets:
+
   <br /> - PASCAL VOC 2007+12
   <br /> - WiderPerson
   <br /> - SODA10M (for autonomous vehicles)
-  <br /> more...
+  <br /> ...
+  <br />(We only provide the train/val/test .txt file, and the images & labels can be found on the official websites of these datasets.) 
+  
 
 ### 1. weights of standard detector for VOC 2007+12: 
 
