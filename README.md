@@ -1,5 +1,6 @@
 # Slim-neck by GSConv
 
+<p align="left"><img width="800" src="https://github.com/AlanLi1997/slim-neck-by-gsconv/blob/main/slim%20neck%20by%20gsconv.png"></p>
   trained datasets:
   <br /> - PASCAL VOC 2007+12
   <br /> - WiderPerson
