@@ -29,10 +29,12 @@
 
 
 #### To test the slim-neck detectors
-    git clone https://github.com/ultralytics/yolov5
-    cd yolov5/
+( It will be updated soon, include:  yolov3/4/5 and yolo-MobileNetsV3/ShuffleNetV2/GhostNet )
+    
+    git clone 
+    cd 
     pip install requirements.txt
-    python val.py --data data/VOC.yaml --weights your_select.pt --task test
+    python 
     
 
 
@@ -43,3 +45,5 @@
   - https://github.com/AlexeyAB/darknet/tree/yolov4
   - https://github.com/WongKinYiu/PyTorch_YOLOv4
   - https://github.com/huawei-noah/CV-backbones/tree/master/ghostnet_pytorch
+  - https://github.com/d-li14/mobilenetv3.pytorch
+  - https://github.com/megvii-model/ShuffleNet-Series
