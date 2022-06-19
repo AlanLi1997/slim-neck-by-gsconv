@@ -1,4 +1,5 @@
 # Slim-neck by GSConv
+paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 
 <p align="left"><img width="800" src="https://github.com/AlanLi1997/slim-neck-by-gsconv/blob/main/slim%20neck%20by%20gsconv.png"></p>
   Datasets:
