@@ -11,26 +11,13 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
   <br />(We only provide the train/val/test .txt file, and the images & labels can be found on the official websites of these datasets.) 
   
 
-### 1. weights of standard detector for VOC 2007+12: 
-
-  include:
-
-    yolov3
-    yolov4
-    yolov5
-    MobileNetsV3
-    ShuffleNetV2
-    GhostNet
-
-### 2. weights of slim-neck detector for VOC 2007+12:
-  include:
-    
-    slim-neck for 
+## Training the custom datasets 
+### 1. For GSConv-yolov5
     
 
 
 #### To test the slim-neck detectors
-( It will be updated soon, include:  yolov3/4/5 and yolo-MobileNetsV3/ShuffleNetV2/GhostNet )
+( It will be updated soon )
     
     git clone 
     cd 
