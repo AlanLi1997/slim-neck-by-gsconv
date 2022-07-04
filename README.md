@@ -46,9 +46,9 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
   - https://github.com/megvii-model/ShuffleNet-Series
 
 # Citation
-@article{li2022slim,
-  title={Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles},
-  author={Li, Hulin and Li, Jun and Wei, Hanbing and Liu, Zheng and Zhan, Zhenfei and Ren, Qiliang},
-  journal={arXiv preprint arXiv:2206.02424},
-  year={2022}
+@article{li2022slim,<br />
+  title={Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles},<br />
+  author={Li, Hulin and Li, Jun and Wei, Hanbing and Liu, Zheng and Zhan, Zhenfei and Ren, Qiliang},<br />
+  journal={arXiv preprint arXiv:2206.02424},<br />
+  year={2022}<br />
 }
