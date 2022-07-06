@@ -50,3 +50,27 @@ class GSConv(nn.Module):
         y = y.reshape(2, -1, n // 2, h, w)
 
         return torch.cat((y[0], y[1]), 1)
+    
+class GSBottleneck(nn.Module):
+# GS Bottleneck https://github.com/AlanLi1997/slim-neck-by-gsconv
+    def __init__(self, c1, c2, k=3, s=1):
+        super().__init__()
+        c_ = c2 // 2
+        self.conv = nn.Sequential(
+            GSConv(c1, c_, 1, 1),
+            GSConv(c_, c2, 1, 1, act=False))
+        self.shortcut = nn.Identity()
+
+    def forward(self, x):
+
+        return self.conv(x)
+
+
+class GSBottleneck2(GSBottleneck):
+    # GS Bottleneck2 https://github.com/AlanLi1997/slim-neck-by-gsconv
+    def __init__(self, c1, c2, k=3, s=1):
+        super().__init__(c1, c2, k, s)
+
+    def forward(self, x):
+
+        return self.conv(x) + self.shortcut(x)
