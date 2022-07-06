@@ -15,9 +15,9 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 ### 1. For GSConv-yolov5
     
     git clone https://github.com/AlanLi1997/slim-neck-by-gsconv.git
-    cd slim-neck-by-gsconv
+    cd slim-neck-by-gsconv/sngs-yolov5
     pip install requirements.txt
-    python train.py --cfg models/gs-yolov5s.yaml --data data/coco128.yaml
+    python train.py --cfg models/gs-yolov5s.yaml
     
 ### 2. For GSConv-scaled_yolov4
 ( It will be updated soon )
