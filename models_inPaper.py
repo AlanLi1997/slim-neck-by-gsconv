@@ -94,7 +94,7 @@ class VoVGSCSP(nn.Module):
 
 
 class VoVGSCSP2(VoVGSCSP):
-    # VoV-GSCSP https://github.com/AlanLi1997/slim-neck-by-gsconv
+    # VoV-GSCSP2 https://github.com/AlanLi1997/slim-neck-by-gsconv
     def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
         super().__init__(c1, c2, n=1, shortcut=True, g=1, e=0.5)
         c_ = int(c2 * e)
