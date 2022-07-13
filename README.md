@@ -37,7 +37,7 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 
 
 
- # References
+ ## References
   - https://github.com/ultralytics/yolov5
   - https://github.com/AlexeyAB/darknet/tree/yolov4
   - https://github.com/WongKinYiu/PyTorch_YOLOv4
@@ -45,7 +45,7 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
   - https://github.com/d-li14/mobilenetv3.pytorch
   - https://github.com/megvii-model/ShuffleNet-Series
 
-# Citation
+## Citation
 @article{li2022slim,<br />
   title={Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles},<br />
   author={Li, Hulin and Li, Jun and Wei, Hanbing and Liu, Zheng and Zhan, Zhenfei and Ren, Qiliang},<br />
@@ -92,7 +92,7 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 
 
 
- # 参考
+ ## 参考
   - https://github.com/ultralytics/yolov5
   - https://github.com/AlexeyAB/darknet/tree/yolov4
   - https://github.com/WongKinYiu/PyTorch_YOLOv4
@@ -100,7 +100,7 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
   - https://github.com/d-li14/mobilenetv3.pytorch
   - https://github.com/megvii-model/ShuffleNet-Series
 
-# 引用此工作
+## 引用此工作
 @article{li2022slim,<br />
   title={Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles},<br />
   author={Li, Hulin and Li, Jun and Wei, Hanbing and Liu, Zheng and Zhan, Zhenfei and Ren, Qiliang},<br />
