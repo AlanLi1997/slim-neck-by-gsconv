@@ -8,8 +8,8 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
   <br /> - WiderPerson
   <br /> - SODA10M (for autonomous vehicles)
   <br /> ...
-  <br />(We only provide the train/val/test .txt file, and the images & labels can be found on the official websites of these datasets.) 
-  
+  <br />(We only provide the train/val/test.txt file we used so that you can reproduce our results. The images & labels can be found on the official websites of these datasets.) 
+
 
 ## Training the custom datasets 
 ### 1. For GSConv-yolov5
