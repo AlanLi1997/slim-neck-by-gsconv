@@ -52,25 +52,50 @@ class GSConv(nn.Module):
         return torch.cat((y[0], y[1]), 1)
     
 class GSBottleneck(nn.Module):
-# GS Bottleneck https://github.com/AlanLi1997/slim-neck-by-gsconv
+    # GS Bottleneck https://github.com/AlanLi1997/slim-neck-by-gsconv
     def __init__(self, c1, c2, k=3, s=1):
         super().__init__()
         c_ = c2 // 2
-        self.conv = nn.Sequential(
+        # for lighting
+        self.conv_lighting = nn.Sequential(
             GSConv(c1, c_, 1, 1),
             GSConv(c_, c2, 1, 1, act=False))
+        # for receptive field
+        self.conv = nn.Sequential(
+            GSConv(c1, c_, 3, 1),
+            GSConv(c_, c2, 3, 1, act=False))
         self.shortcut = nn.Identity()
 
     def forward(self, x):
-
-        return self.conv(x)
+        return self.conv_lighting(x)
 
 
 class GSBottleneck2(GSBottleneck):
-    # GS Bottleneck2 https://github.com/AlanLi1997/slim-neck-by-gsconv
+    # GS Bottleneck https://github.com/AlanLi1997/slim-neck-by-gsconv
     def __init__(self, c1, c2, k=3, s=1):
         super().__init__(c1, c2, k, s)
 
     def forward(self, x):
-
         return self.conv(x) + self.shortcut(x)
+
+
+class VoVGSCSP(nn.Module):
+    # VoV-GSCSP https://github.com/AlanLi1997/slim-neck-by-gsconv
+    def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
+        super().__init__()
+        c_ = int(c2 * e)
+        self.cv1 = Conv(c1, c_, 1, 1)
+        self.cv2 = Conv(2 * c_, c2, 1)
+        self.m = nn.Sequential(*(GSBottleneck(c_, c_) for _ in range(n)))
+
+    def forward(self, x):
+        x1 = self.cv1(x)
+        return self.cv2(torch.cat((self.m(x1), x1), dim=1))
+
+
+class VoVGSCSP2(VoVGSCSP):
+    # VoV-GSCSP https://github.com/AlanLi1997/slim-neck-by-gsconv
+    def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
+        super().__init__(c1, c2, n=1, shortcut=True, g=1, e=0.5)
+        c_ = int(c2 * e)
+        self.m = nn.Sequential(*(GSBottleneck2(c_, c_) for _ in range(n)))
