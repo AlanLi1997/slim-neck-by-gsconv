@@ -13,11 +13,12 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 
 ## Training the custom datasets 
 ### 1. For GSConv-yolov5
+(Updated July 14th)
     
     git clone https://github.com/AlanLi1997/slim-neck-by-gsconv.git
-    cd slim-neck-by-gsconv/sngs-yolov5
+    cd slim-neck-by-gsconv/gsconv-yolov5-6.1
     pip install requirements.txt
-    python train.py --cfg models/gs-yolov5s.yaml
+    python train.py --cfg models/GSConv-yolov5s.yaml
     
 ### 2. For GSConv-scaled_yolov4
 ( It will be updated soon )
@@ -31,7 +32,7 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 ## Testing the slim-neck detectors
 ### 1. For GSConv-yolov5
     
-    python val.py --data yourdata.yaml --weights gsconv-yolov5s.pt
+    python val.py --data yourdata.yaml --weights GSConv-yolov5s.pt
     
 
 
@@ -68,11 +69,12 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 
 ## 训练自定义数据集
 ### 1. 使用GSConv改进yolov5
+(7月14日更新)
     
     git clone https://github.com/AlanLi1997/slim-neck-by-gsconv.git
-    cd slim-neck-by-gsconv/sngs-yolov5
+    cd slim-neck-by-gsconv/gsconv-yolov5-6.1
     pip install requirements.txt
-    python train.py --cfg models/gs-yolov5s.yaml
+    python train.py --cfg models/GSConv-yolov5s.yaml
     
 ### 2. 使用GSConv改进scaled_yolov4
 (即将到来)
@@ -86,7 +88,7 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 ## 验证和测试改进后的检测器的性能
 ### 1. 测试被GSConv改进的yolov5
     
-    python val.py --data yourdata.yaml --weights gsconv-yolov5s.pt
+    python val.py --data yourdata.yaml --weights GSConv-yolov5s.pt
     
 
 
