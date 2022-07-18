@@ -1,5 +1,5 @@
 # Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicle
-paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
+Pytorch implementation of [Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicle](https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf)
 
 <p align="left"><img width="800" src="https://github.com/AlanLi1997/slim-neck-by-gsconv/blob/main/slim%20neck%20by%20gsconv.png"></p>
   Datasets:
@@ -55,7 +55,7 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 }
 
 # 基于GSConv的轻量融合层：一个更好的轻量化检测器结构设计范式
-论文地址: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
+Pytorch 实现 [基于GSConv的轻量融合层：一个更好的轻量化检测器结构设计范式](https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf)
 
 <p align="left"><img width="800" src="https://github.com/AlanLi1997/slim-neck-by-gsconv/blob/main/slim%20neck%20by%20gsconv.png"></p>
   实验数据集:
