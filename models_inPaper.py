@@ -50,7 +50,22 @@ class GSConv(nn.Module):
         y = y.reshape(2, -1, n // 2, h, w)
 
         return torch.cat((y[0], y[1]), 1)
-    
+ 
+
+class GSConv1(GSConv):
+    # GSConv with a normative-shuffle https://github.com/AlanLi1997/slim-neck-by-gsconv
+    def __init__(self, c1, c2, k=1, s=1, g=1, act=True):
+        super().__init__(c1, c2, k=1, s=1, g=1, act=True)
+        c_ = c2 // 2
+        self.shuf = nn.Conv2d(c_ * 2, c2, 1, 1, 0, bias=False)
+
+    def forward(self, x):
+        x1 = self.cv1(x)
+        x2 = torch.cat((x1, self.cv2(x1)), 1)
+        # normative-shuffle, TRT supported
+        return self.shuf(x2)
+
+
 class GSBottleneck(nn.Module):
     # GS Bottleneck https://github.com/AlanLi1997/slim-neck-by-gsconv
     def __init__(self, c1, c2, k=3, s=1):
