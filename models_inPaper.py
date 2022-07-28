@@ -123,13 +123,15 @@ class VoVGSCSP(nn.Module):
     def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
         super().__init__()
         c_ = int(c2 * e)
+        self.cv = Conv(c1, c_, 1, 1)
         self.cv1 = Conv(c1, c_, 1, 1)
         self.cv2 = Conv(2 * c_, c2, 1)
         self.m = nn.Sequential(*(GSBottleneck(c_, c_) for _ in range(n)))
 
     def forward(self, x):
-        x1 = self.cv1(x)
-        return self.cv2(torch.cat((self.m(x1), x1), dim=1))
+        x1 = self.cv(x)
+        x2 = self.cv1(x)
+        return self.cv2(torch.cat((self.m(x1), x2), dim=1))
 
 
 class VoVGSCSP2(VoVGSCSP):
