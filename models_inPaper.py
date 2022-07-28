@@ -43,6 +43,10 @@ class GSConv(nn.Module):
         x1 = self.cv1(x)
         x2 = torch.cat((x1, self.cv2(x1)), 1)
         # shuffle
+        # y = x2.reshape(x2.shape[0], 2, x.shape[1] // 2, x.shape[2], x.shape[3])
+        # y = y.permute(0, 2, 1, 3, 4)
+        # return y.reshape(x.shape[0], -1, x.shape[3], x.shape[4])  
+        
         b, n, h, w = x2.data.size()
         b_n = b * n // 2
         y = x2.reshape(b_n, 2, h * w)
@@ -51,6 +55,26 @@ class GSConv(nn.Module):
 
         return torch.cat((y[0], y[1]), 1)
  
+'''
+class ChannelShuffle(nn.Module):
+    # ChannelShuffle from ShuffleNetv2 https://github.com/miaow1988/ShuffleNet_V2_pytorch_caffe/blob/master
+    def __init__(self, groups):
+        super(ChannelShuffle, self).__init__()
+        self.groups = groups
+
+    def forward(self, x):
+        x = x.reshape(x.shape[0], self.groups, x.shape[1] // self.groups, x.shape[2], x.shape[3])
+        x = x.permute(0, 2, 1, 3, 4)
+        x = x.reshape(x.shape[0], -1, x.shape[3], x.shape[4])
+        return x
+
+    def generate_caffe_prototxt(self, caffe_net, layer):
+        layer = L.ShuffleChannel(layer, group=self.groups)
+        caffe_net[self.g_name] = layer
+        return layer
+'''
+
+
 
 class GSConv1(GSConv):
     # GSConv with a normative-shuffle https://github.com/AlanLi1997/slim-neck-by-gsconv
