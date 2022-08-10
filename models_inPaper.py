@@ -1,4 +1,4 @@
-# Code provided by AlanLi
+# Code are updating
 """
 Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles
 paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
@@ -103,7 +103,7 @@ class GSBottleneck(nn.Module):
         self.conv = nn.Sequential(
             GSConv(c1, c_, 3, 1),
             GSConv(c_, c2, 3, 1, act=False))
-        self.shortcut = nn.Identity()
+        self.shortcut = Conv(c1, c2, 3, 1, act=False)
 
     def forward(self, x):
         return self.conv_lighting(x)
@@ -118,6 +118,28 @@ class GSBottleneck2(GSBottleneck):
         return self.conv(x) + self.shortcut(x)
 
 
+class VoVGSCSP1(nn.Module):
+    # VoVGSCSP module with GSBottleneck
+    def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
+        super().__init__()
+        c_ = int(c2 * e)  # hidden channels
+        self.cv1 = Conv(c1, c_, 1, 1)
+        self.cv2 = Conv(c1, c_, 1, 1)
+        self.gc1 = GSConv(c_, c_, 1, 1)
+        self.gc2 = GSConv(c_, c_, 1, 1)
+        self.res = Conv(c_, c_, 3, 1, act=False)
+        self.cv3 = Conv(2*c_, c2, 1)  #
+
+    def forward(self, x):
+        x1 = self.cv1(x)
+        x2 = self.gc1(x1)
+        x3 = self.gc2(x2)
+        x4 = x3 + self.res(x1)
+        y = self.cv2(x)
+        return self.cv3(torch.cat((y, x4), dim=1))
+
+
+'''
 class VoVGSCSP(nn.Module):
     # VoV-GSCSP https://github.com/AlanLi1997/slim-neck-by-gsconv
     def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
@@ -140,3 +162,4 @@ class VoVGSCSP2(VoVGSCSP):
         super().__init__(c1, c2, n=1, shortcut=True, g=1, e=0.5)
         c_ = int(c2 * e)
         self.m = nn.Sequential(*(GSBottleneck2(c_, c_) for _ in range(n)))
+'''
