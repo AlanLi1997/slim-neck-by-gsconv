@@ -1,9 +1,10 @@
 # Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicle
 paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 
-<p 
-align="left"><img width="800" src="gsconvdet.png">
+<p align="center">
+  <img src="gsconvdet.png" alt="" width="800" />
 </p>
+
   
 Datasets:
 
@@ -16,13 +17,15 @@ Datasets:
 ### An example of comparison on remote sensing images
 
 scaled-yolov4
-<p 
-align="left"><img width="800" src="remote-scaledv4.jpg">
+<p align="center">
+  <img src="remote-scaledv4.jpg" alt="" width="800" />
 </p>
+
 slim neck scaled-yolov4
-<p 
-align="left"><img width="800" src="sm-remote-scaledv4.jpg">
+<p align="center">
+  <img src="sm-remote-scaledv4.jpg" alt="" width="800" />
 </p>
+
 
 ## Training the custom datasets 
 ### 1. For GSConv-yolov5
@@ -70,8 +73,11 @@ align="left"><img width="800" src="sm-remote-scaledv4.jpg">
 # 基于GSConv的轻量融合层：一个更好的轻量化检测器结构设计范式
 论文地址: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 
-<p align="left"><img width="800" src="gsconvdet.png"></p>
-  实验数据集:
+<p align="center">
+  <img src="gsconvdet.png" alt="" width="800" />
+</p>
+ 
+ 实验数据集:
 
   <br /> - PASCAL VOC 2007+12 (通用检测器)
   <br /> - WiderPerson (用于行人检测)
