@@ -7,6 +7,7 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 
 import torch
 import torch.nn as nn
+import math
 
 
 def autopad(k, p=None):  # kernel, padding
@@ -55,28 +56,8 @@ class GSConv(nn.Module):
 
         return torch.cat((y[0], y[1]), 1)
  
-'''
-class ChannelShuffle(nn.Module):
-    # ChannelShuffle from ShuffleNetv2 https://github.com/miaow1988/ShuffleNet_V2_pytorch_caffe/blob/master
-    def __init__(self, groups):
-        super(ChannelShuffle, self).__init__()
-        self.groups = groups
 
-    def forward(self, x):
-        x = x.reshape(x.shape[0], self.groups, x.shape[1] // self.groups, x.shape[2], x.shape[3])
-        x = x.permute(0, 2, 1, 3, 4)
-        x = x.reshape(x.shape[0], -1, x.shape[3], x.shape[4])
-        return x
-
-    def generate_caffe_prototxt(self, caffe_net, layer):
-        layer = L.ShuffleChannel(layer, group=self.groups)
-        caffe_net[self.g_name] = layer
-        return layer
-'''
-
-
-
-class GSConv1(GSConv):
+class GSConvls(GSConv):
     # GSConv with a normative-shuffle https://github.com/AlanLi1997/slim-neck-by-gsconv
     def __init__(self, c1, c2, k=1, s=1, g=1, act=True):
         super().__init__(c1, c2, k=1, s=1, g=1, act=True)
@@ -87,7 +68,7 @@ class GSConv1(GSConv):
         x1 = self.cv1(x)
         x2 = torch.cat((x1, self.cv2(x1)), 1)
         # normative-shuffle, TRT supported
-        return self.shuf(x2)
+        return nn.ReLU(self.shuf(x2))
 
 
 class GSBottleneck(nn.Module):
@@ -106,60 +87,65 @@ class GSBottleneck(nn.Module):
         self.shortcut = Conv(c1, c2, 3, 1, act=False)
 
     def forward(self, x):
-        return self.conv_lighting(x)
+        return self.conv_lighting(x) + self.shortcut(x)
 
 
-class GSBottleneck2(GSBottleneck):
-    # GS Bottleneck https://github.com/AlanLi1997/slim-neck-by-gsconv
+class DWConv(Conv):
+    # Depth-wise convolution class
+    def __init__(self, c1, c2, k=1, s=1, act=True):  # ch_in, ch_out, kernel, stride, padding, groups
+        super().__init__(c1, c2, k, s, g=math.gcd(c1, c2), act=act)
+
+
+class GSBottleneckC(GSBottleneck):
+    # cheap GS Bottleneck https://github.com/AlanLi1997/slim-neck-by-gsconv
     def __init__(self, c1, c2, k=3, s=1):
         super().__init__(c1, c2, k, s)
-
-    def forward(self, x):
-        return self.conv(x) + self.shortcut(x)
+        self.shortcut = DWConv(c1, c2, 3, 1, act=False)
 
 
-class VoVGSCSP1(nn.Module):
+class VoVGSCSP(nn.Module):
     # VoVGSCSP module with GSBottleneck
     def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
         super().__init__()
         c_ = int(c2 * e)  # hidden channels
         self.cv1 = Conv(c1, c_, 1, 1)
         self.cv2 = Conv(c1, c_, 1, 1)
-        self.gc1 = GSConv(c_, c_, 1, 1)
-        self.gc2 = GSConv(c_, c_, 1, 1)
+        # self.gc1 = GSConv(c_, c_, 1, 1)
+        # self.gc2 = GSConv(c_, c_, 1, 1)
+        self.gsb = GSBottleneck(c_, c_, 1, 1)
         self.res = Conv(c_, c_, 3, 1, act=False)
         self.cv3 = Conv(2*c_, c2, 1)  #
 
     def forward(self, x):
-        x1 = self.cv1(x)
-        x2 = self.gc1(x1)
-        x3 = self.gc2(x2)
-        x4 = x3 + self.res(x1)
+
+        x1 = self.gsb(self.cv1(x))
         y = self.cv2(x)
-        return self.cv3(torch.cat((y, x4), dim=1))
+        return self.cv3(torch.cat((y, x1), dim=1))
+
+
+class VoVGSCSPC(nn.Module):
+    # cheap VoVGSCSP module with GSBottleneck
+    def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
+        super().__init__()
+        c_ = int(c2 * e)  # hidden channels
+        self.gsb = GSBottleneckC(c_, c_, 1, 1)
 
 
 '''
-class VoVGSCSP(nn.Module):
-    # VoV-GSCSP https://github.com/AlanLi1997/slim-neck-by-gsconv
-    def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
-        super().__init__()
-        c_ = int(c2 * e)
-        self.cv = Conv(c1, c_, 1, 1)
-        self.cv1 = Conv(c1, c_, 1, 1)
-        self.cv2 = Conv(2 * c_, c2, 1)
-        self.m = nn.Sequential(*(GSBottleneck(c_, c_) for _ in range(n)))
+class ChannelShuffle(nn.Module):
+    # ChannelShuffle from ShuffleNetv2 https://github.com/miaow1988/ShuffleNet_V2_pytorch_caffe/blob/master
+    def __init__(self, groups):
+        super(ChannelShuffle, self).__init__()
+        self.groups = groups
 
     def forward(self, x):
-        x1 = self.cv(x)
-        x2 = self.cv1(x)
-        return self.cv2(torch.cat((self.m(x1), x2), dim=1))
+        x = x.reshape(x.shape[0], self.groups, x.shape[1] // self.groups, x.shape[2], x.shape[3])
+        x = x.permute(0, 2, 1, 3, 4)
+        x = x.reshape(x.shape[0], -1, x.shape[3], x.shape[4])
+        return x
 
-
-class VoVGSCSP2(VoVGSCSP):
-    # VoV-GSCSP2 https://github.com/AlanLi1997/slim-neck-by-gsconv
-    def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
-        super().__init__(c1, c2, n=1, shortcut=True, g=1, e=0.5)
-        c_ = int(c2 * e)
-        self.m = nn.Sequential(*(GSBottleneck2(c_, c_) for _ in range(n)))
+    def generate_caffe_prototxt(self, caffe_net, layer):
+        layer = L.ShuffleChannel(layer, group=self.groups)
+        caffe_net[self.g_name] = layer
+        return layer
 '''

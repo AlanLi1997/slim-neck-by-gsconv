@@ -1,15 +1,28 @@
 # Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicle
 paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 
-<p align="left"><img width="800" src="https://github.com/AlanLi1997/slim-neck-by-gsconv/blob/main/slim%20neck%20by%20gsconv.png"></p>
-  Datasets:
+<p 
+align="left"><img width="800" src="gsconvdet.png">
+</p>
+  
+Datasets:
 
   <br /> - PASCAL VOC 2007+12
   <br /> - WiderPerson
   <br /> - SODA10M (for autonomous vehicles)
-  <br /> ...
+  <br /> - DOTA1.0
   <br />(We only provide the train/val/test.txt file we used so that you can reproduce our results. The images & labels can be found on the official websites of these datasets.) 
 
+### An example of comparison on remote sensing images
+
+scaled-yolov4
+<p 
+align="left"><img width="800" src="remote-scaledv4.jpg">
+</p>
+slim neck scaled-yolov4
+<p 
+align="left"><img width="800" src="sm-remote-scaledv4.jpg">
+</p>
 
 ## Training the custom datasets 
 ### 1. For GSConv-yolov5
@@ -57,7 +70,7 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 # 基于GSConv的轻量融合层：一个更好的轻量化检测器结构设计范式
 论文地址: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 
-<p align="left"><img width="800" src="https://github.com/AlanLi1997/slim-neck-by-gsconv/blob/main/slim%20neck%20by%20gsconv.png"></p>
+<p align="left"><img width="800" src="gsconvdet.png"></p>
   实验数据集:
 
   <br /> - PASCAL VOC 2007+12 (通用检测器)
