@@ -1,4 +1,4 @@
-# Code are updating
+# Codes are updating
 """
 Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles
 paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
@@ -57,7 +57,7 @@ class GSConv(nn.Module):
         return torch.cat((y[0], y[1]), 1)
  
 
-class GSConvls(GSConv):
+class GSConvns(GSConv):
     # GSConv with a normative-shuffle https://github.com/AlanLi1997/slim-neck-by-gsconv
     def __init__(self, c1, c2, k=1, s=1, g=1, act=True):
         super().__init__(c1, c2, k=1, s=1, g=1, act=True)
