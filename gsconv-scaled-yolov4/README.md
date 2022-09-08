@@ -1,165 +1,145 @@
-# YOLOv4-large
+# Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicle
+[paper](https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf)
+
+<p align="center">
+  <img src="gsconvdet.png" alt="" width="800" />
+</p>
+  
+Datasets:
+  <br /> - PASCAL VOC 2007+12
+  <br /> - WiderPerson
+  <br /> - SODA10M (for autonomous vehicles)
+  <br /> - DOTA1.0
+  <br />(We only provide the train/val/test.txt file we used so that you can reproduce our results. The images & labels can be found on the official websites of these datasets.) 
+---
+### An example of comparison on remote sensing images
+
+scaled-yolov4
+<p align="center">
+  <img src="remote-scaledv4.jpg" alt="" width="800" />
+</p>
+
+slim neck scaled-yolov4
+<p align="center">
+  <img src="sm-remote-scaledv4.jpg" alt="" width="800" />
+</p>
 
 ---
-### Train the custom slim-neck-scaled-yolov4 detector
+
+## Training the custom datasets 
+### 1. For GSConv-yolov5
+(Updated July 14th)
+    
+    git clone https://github.com/AlanLi1997/slim-neck-by-gsconv.git
+    cd slim-neck-by-gsconv/gsconv-yolov5
+    pip install requirements.txt
+    python train.py --cfg models/sm-yolov5s.yaml
+    
+### 2. For GSConv-scaled_yolov4
+(Updated Aug 17th)
 
     git clone https://github.com/AlanLi1997/slim-neck-by-gsconv.git
     cd slim-neck-by-gsconv
     pip install requirements.txt
     cd gsconv-scaled-yolov4
     python train.py --cfg models/sm-yolov4-p5.yaml
----
-<br>
 
-This is the implementation of "[Scaled-YOLOv4: Scaling Cross Stage Partial Network](https://arxiv.org/abs/2011.08036)" using PyTorch framwork.
 
-* [YOLOv4-CSP](https://github.com/WongKinYiu/ScaledYOLOv4/tree/yolov4-csp)
-* [YOLOv4-tiny](https://github.com/WongKinYiu/ScaledYOLOv4/tree/yolov4-tiny)
-* [YOLOv4-large](https://github.com/WongKinYiu/ScaledYOLOv4/tree/yolov4-large)
+## Testing the slim-neck detectors
+### 1. For GSConv-yolov5
+    
+    cd gsconv-yolov5
+    python val.py --data yourdata.yaml --weights sm-yolov5s.pt --task test
 
-| Model | Test Size | AP<sup>test</sup> | AP<sub>50</sub><sup>test</sup> | AP<sub>75</sub><sup>test</sup> | AP<sub>S</sub><sup>test</sup> | AP<sub>M</sub><sup>test</sup> | AP<sub>L</sub><sup>test</sup> | batch1 throughput |
-| :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | 
-| **YOLOv4-P5** | 896 | **51.4%** | **69.9%** | **56.3%** | **33.1%** | **55.4%** | **62.4%** | 41 *fps* |
-| **YOLOv4-P5** | TTA | **52.5%** | **70.3%** | **58.0%** | **36.0%** | **52.4%** | **62.3%** | - |
-|  |  |  |  |  |  |  |
-| **YOLOv4-P6** | 1280 | **54.3%** | **72.3%** | **59.5%** | **36.6%** | **58.2%** | **65.5%** | 30 *fps* |
-| **YOLOv4-P6** | TTA | **54.9%** | **72.6%** | **60.2%** | **37.4%** | **58.8%** | **66.7%** | - |
-|  |  |  |  |  |  |  |
-| **YOLOv4-P7** | 1536 | **55.4%** | **73.3%** | **60.7%** | **38.1%** | **59.5%** | **67.4%** | 15 *fps* |
-| **YOLOv4-P7** | TTA | **55.8%** | **73.2%** | **61.2%** | **38.8%** | **60.1%** | **68.2%** | - |
-|  |  |  |  |  |  |  |
+### 2. For GSConv-scaled-yolov4
+    
+    cd gsconv-scaled-yolov4
+    python val.py --data yourdata.yaml --weights sm-yolov4-p5.pt --task test
 
-| Model | Test Size | AP<sup>val</sup> | AP<sub>50</sub><sup>val</sup> | AP<sub>75</sub><sup>val</sup> | AP<sub>S</sub><sup>val</sup> | AP<sub>M</sub><sup>val</sup> | AP<sub>L</sub><sup>val</sup> | weights |
-| :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| **YOLOv4-P5** | 896 | **51.2%** | **69.8%** | **56.2%** | **35.0%** | **56.2%** | **64.0%** | [`yolov4-p5.pt`](https://drive.google.com/file/d/1aXZZE999sHMP1gev60XhNChtHPRMH3Fz/view?usp=sharing) |
-| **YOLOv4-P5** | TTA | **52.5%** | **70.2%** | **57.8%** | **38.5%** | **57.2%** | **64.0%** | - |
-| **YOLOv4-P5** (+BoF) | 896 | **51.7%** | **70.3%** | **56.7%** | **35.9%** | **56.7%** | **64.3%** | [`yolov4-p5_.pt`](https://drive.google.com/file/d/15CL05ZufFk2krbRS993fqlG40Wb0HTyr/view?usp=sharing) |
-| **YOLOv4-P5** (+BoF) | TTA | **52.8%** | **70.6%** | **58.3%** | **38.8%** | **57.4%** | **64.4%** | - |
-|  |  |  |  |  |  |  |  |
-| **YOLOv4-P6** | 1280 | **53.9%** | **72.0%** | **59.0%** | **39.3%** | **58.3%** | **66.6%** | [`yolov4-p6.pt`](https://drive.google.com/file/d/1aB7May8oPYzBqbgwYSZHuATPXyxh9xnf/view?usp=sharing) |
-| **YOLOv4-P6** | TTA | **54.4%** | **72.3%** | **59.6%** | **39.8%** | **58.9%** | **67.6%** | - |
-| **YOLOv4-P6** (+BoF) | 1280 | **54.4%** | **72.7%** | **59.5%** | **39.5%** | **58.9%** | **67.3%** | [`yolov4-p6_.pt`](https://drive.google.com/file/d/1Q8oG3lBVVoS0-UwNOBsDsPkq9VKs9UcC/view?usp=sharing) |
-| **YOLOv4-P6** (+BoF) | TTA | **54.8%** | **72.6%** | **60.0%** | **40.6%** | **59.1%** | **68.2%** | - |
-| **YOLOv4-P6** (+BoF*) | 1280 | **54.7%** | **72.9%** | **60.0%** | **39.4%** | **59.2%** | **68.3%** |  |
-| **YOLOv4-P6** (+BoF*) | TTA | **55.3%** | **73.2%** | **60.8%** | **40.5%** | **59.9%** | **69.4%** | - |
-|  |  |  |  |  |  |  |  |
-| **YOLOv4-P7** | 1536 | **55.0%** | **72.9%** | **60.2%** | **39.8%** | **59.9%** | **68.4%** | [`yolov4-p7.pt`](https://drive.google.com/file/d/18fGlzgEJTkUEiBG4hW00pyedJKNnYLP3/view?usp=sharing)  |
-| **YOLOv4-P7** | TTA | **55.5%** | **72.9%** | **60.8%** | **41.1%** | **60.3%** | **68.9%** | - |
-|  |  |  |  |  |  |  |  |
-
-| Model | Test Size | AP<sup>val</sup> | AP<sub>50</sub><sup>val</sup> | AP<sub>75</sub><sup>val</sup> | AP<sub>S</sub><sup>val</sup> | AP<sub>M</sub><sup>val</sup> | AP<sub>L</sub><sup>val</sup> |
-| :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| **YOLOv4-P6-attention** | 1280 | **54.3%** | **72.3%** | **59.6%** | **38.7%** | **58.9%** | **66.6%** |
-
-## Installation
-
-```
-# create the docker container, you can change the share memory size if you have more.
-nvidia-docker run --name yolov4_csp -it -v your_coco_path/:/coco/ -v your_code_path/:/yolo --shm-size=64g nvcr.io/nvidia/pytorch:20.06-py3
-
-# install mish-cuda, if you use different pytorch version, you could try https://github.com/thomasbrandon/mish-cuda
-cd /
-git clone https://github.com/JunnYu/mish-cuda
-cd mish-cuda
-python setup.py build install
-
-# go to code folder
-cd /yolo
-```
-
-## Testing
-
-```
-# download {yolov4-p5.pt, yolov4-p6.pt, yolov4-p7.pt} and put them in /yolo/weights/ folder.
-python test.py --img 896 --conf 0.001 --batch 8 --device 0 --data coco.yaml --weights weights/yolov4-p5.pt
-python test.py --img 1280 --conf 0.001 --batch 8 --device 0 --data coco.yaml --weights weights/yolov4-p6.pt
-python test.py --img 1536 --conf 0.001 --batch 8 --device 0 --data coco.yaml --weights weights/yolov4-p7.pt
-```
-
-You will get following results:
-```
-# yolov4-p5
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.51244
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.69771
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.56180
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.35021
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.56247
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.63983
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.38530
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.64048
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.69801
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.55487
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.74368
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.82826
-```
-```
-# yolov4-p6
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.53857
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.72015
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.59025
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.39285
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.58283
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.66580
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.39552
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.66504
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.72141
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.59193
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.75844
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.83981
-```
-```
-# yolov4-p7
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.55046
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.72925
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.60224
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.39836
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.59854
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.68405
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.40256
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.66929
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.72943
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.59943
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.76873
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.84460
-```
-
-## Training
-
-We use multiple GPUs for training.
-{YOLOv4-P5, YOLOv4-P6, YOLOv4-P7} use input resolution {896, 1280, 1536} for training respectively.
-```
-# yolov4-p5
-python -m torch.distributed.launch --nproc_per_node 4 train.py --batch-size 64 --img 896 896 --data coco.yaml --cfg yolov4-p5.yaml --weights '' --sync-bn --device 0,1,2,3 --name yolov4-p5
-python -m torch.distributed.launch --nproc_per_node 4 train.py --batch-size 64 --img 896 896 --data coco.yaml --cfg yolov4-p5.yaml --weights 'runs/exp0_yolov4-p5/weights/last_298.pt' --sync-bn --device 0,1,2,3 --name yolov4-p5-tune --hyp 'data/hyp.finetune.yaml' --epochs 450 --resume
-```
-
-If your training process stucks, it due to bugs of the python.
-Just `Ctrl+C` to stop training and resume training by:
-```
-# yolov4-p5
-python -m torch.distributed.launch --nproc_per_node 4 train.py --batch-size 64 --img 896 896 --data coco.yaml --cfg yolov4-p5.yaml --weights 'runs/exp0_yolov4-p5/weights/last.pt' --sync-bn --device 0,1,2,3 --name yolov4-p5 --resume
-```
+ ## References
+  - https://github.com/ultralytics/yolov5
+  - https://github.com/AlexeyAB/darknet/tree/yolov4
+  - https://github.com/WongKinYiu/PyTorch_YOLOv4
+  - https://github.com/huawei-noah/CV-backbones/tree/master/ghostnet_pytorch
+  - https://github.com/d-li14/mobilenetv3.pytorch
+  - https://github.com/megvii-model/ShuffleNet-Series
 
 ## Citation
-
-```
-@InProceedings{Wang_2021_CVPR,
-    author    = {Wang, Chien-Yao and Bochkovskiy, Alexey and Liao, Hong-Yuan Mark},
-    title     = {{Scaled-YOLOv4}: Scaling Cross Stage Partial Network},
-    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month     = {June},
-    year      = {2021},
-    pages     = {13029-13038}
+@article{li2022slim,<br />
+  title={Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles},<br />
+  author={Li, Hulin and Li, Jun and Wei, Hanbing and Liu, Zheng and Zhan, Zhenfei and Ren, Qiliang},<br />
+  journal={arXiv preprint arXiv:2206.02424},<br />
+  year={2022}<br />
 }
-```
 
-## Acknowledgements
+# 基于GSConv的轻量融合层：一个更好的轻量化检测器结构设计范式用于自动驾驶
+[论文](https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf)
 
-<details><summary> <b>Expand</b> </summary>
+<p align="center">
+  <img src="gsconvdet.png" alt="" width="800" />
+</p>
+ 
+ 实验数据集:
+  <br /> - PASCAL VOC 2007+12 (通用检测器)
+  <br /> - WiderPerson (用于行人检测)
+  <br /> - SODA10M (用于自动驾驶)
+  <br /> - DOTA1.0 (用于遥感影像目标检测)
+  <br />(我们只提供我们所使用的训练、验证和测试的文本文档,以便于您复现我们的结果。 被标注的图像和它们的标注文件请您访问相应的数据集官方网站获取。) 
+---
+### 遥感小目标检测结果的一个对比例子
+scaled-yolov4
+<p align="center">
+  <img src="remote-scaledv4.jpg" alt="" width="800" />
+</p>
 
-* [https://github.com/AlexeyAB/darknet](https://github.com/AlexeyAB/darknet)
-* [https://github.com/WongKinYiu/PyTorch_YOLOv4](https://github.com/WongKinYiu/PyTorch_YOLOv4)
-* [https://github.com/ultralytics/yolov3](https://github.com/ultralytics/yolov3)
-* [https://github.com/ultralytics/yolov5](https://github.com/ultralytics/yolov5)
+slim neck scaled-yolov4
+<p align="center">
+  <img src="sm-remote-scaledv4.jpg" alt="" width="800" />
+</p>
 
-</details>
+---
+
+## 训练自定义数据集
+### 1. 训练基于GSConv的轻量化yolov5检测器
+(7月14日更新)
+    
+    git clone https://github.com/AlanLi1997/slim-neck-by-gsconv.git
+    cd slim-neck-by-gsconv/gsconv-yolov5
+    pip install requirements.txt
+    python train.py --cfg models/sm-yolov5s.yaml
+    
+### 2. 训练基于GSConv的轻量化scaled-yolov4检测器
+(8月17日更新)
+
+    git clone https://github.com/AlanLi1997/slim-neck-by-gsconv.git
+    cd slim-neck-by-gsconv
+    pip install requirements.txt
+    cd gsconv-scaled-yolov4
+    python train.py --cfg models/sm-yolov4-p5.yaml
+
+
+## 验证和测试基于GSConv的轻量检测器的性能
+### 1. 测试基于GSConv的轻量化yolov5检测器
+    cd gsconv-yolov5
+    python val.py --data yourdata.yaml --weights sm-yolov5s.pt --task test
+
+### 2. 测试基于GSConv的轻量化scaled-yolov4检测器
+    cd gsconv-scaled-yolov4
+    python val.py --data yourdata.yaml --weights sm-yolov4-p5.pt --task test
+
+
+ ## 参考
+  - https://github.com/ultralytics/yolov5
+  - https://github.com/AlexeyAB/darknet/tree/yolov4
+  - https://github.com/WongKinYiu/PyTorch_YOLOv4
+  - https://github.com/huawei-noah/CV-backbones/tree/master/ghostnet_pytorch
+  - https://github.com/d-li14/mobilenetv3.pytorch
+  - https://github.com/megvii-model/ShuffleNet-Series
+
+## 引用此工作
+@article{li2022slim,<br />
+  title={Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles},<br />
+  author={Li, Hulin and Li, Jun and Wei, Hanbing and Liu, Zheng and Zhan, Zhenfei and Ren, Qiliang},<br />
+  journal={arXiv preprint arXiv:2206.02424},<br />
+  year={2022}<br />
+}
