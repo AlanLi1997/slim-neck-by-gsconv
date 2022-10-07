@@ -66,12 +66,8 @@ class GSBottleneck(nn.Module):
         # for lighting
         self.conv_lighting = nn.Sequential(
             GSConv(c1, c_, 1, 1),
-            GSConv(c_, c2, 1, 1, act=False))
-        # for receptive field
-        self.conv = nn.Sequential(
-            GSConv(c1, c_, 3, 1),
             GSConv(c_, c2, 3, 1, act=False))
-        self.shortcut = Conv(c1, c2, 3, 1, act=False)
+        self.shortcut = Conv(c1, c2, 1, 1, act=False)
 
     def forward(self, x):
         return self.conv_lighting(x) + self.shortcut(x)
@@ -103,12 +99,12 @@ class VoVGSCSP(nn.Module):
         return self.cv3(torch.cat((y, x1), dim=1))
 
 
-class VoVGSCSPC(nn.Module):
+class VoVGSCSPC(VoVGSCSP):
     # cheap VoVGSCSP module with GSBottleneck
     def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
-        super().__init__()
+        super().__init__(c1, c2, e)
         c_ = int(c2 * e)  # hidden channels
-        self.gsb = GSBottleneckC(c_, c_, 1, 1)
+        self.gsb = GSBottleneckC(c_, c_, 3, 1)
 
 
 class Conv(nn.Module):

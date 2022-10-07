@@ -97,12 +97,8 @@ class GSBottleneck(nn.Module):
         # for lighting
         self.conv_lighting = nn.Sequential(
             GSConv(c1, c_, 1, 1),
-            GSConv(c_, c2, 1, 1, act=False))
-        # for receptive field
-        self.conv = nn.Sequential(
-            GSConv(c1, c_, 3, 1),
             GSConv(c_, c2, 3, 1, act=False))
-        self.shortcut = Conv(c1, c2, 3, 1, act=False)
+        self.shortcut = Conv(c1, c2, 1, 1, act=False)
 
     def forward(self, x):
         return self.conv_lighting(x) + self.shortcut(x)
@@ -118,7 +114,7 @@ class GSBottleneckC(GSBottleneck):
     # cheap GS Bottleneck https://github.com/AlanLi1997/slim-neck-by-gsconv
     def __init__(self, c1, c2, k=3, s=1):
         super().__init__(c1, c2, k, s)
-        self.shortcut = DWConv(c1, c2, 3, 1, act=False)
+        self.shortcut = DWConv(c1, c2, k, s, act=False)
 
 
 class VoVGSCSP(nn.Module):
@@ -140,18 +136,12 @@ class VoVGSCSP(nn.Module):
         return self.cv3(torch.cat((y, x1), dim=1))
 
 
-class VoVGSCSPC(nn.Module):
+class VoVGSCSPC(VoVGSCSP):
     # cheap VoVGSCSP module with GSBottleneck
     def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
-        super().__init__()
+        super().__init__(c1, c2, e)
         c_ = int(c2 * e)  # hidden channels
         self.gsb = GSBottleneckC(c_, c_, 1, 1)
-
-
-class DWConv(Conv):
-    # Depth-wise convolution class
-    def __init__(self, c1, c2, k=1, s=1, act=True):  # ch_in, ch_out, kernel, stride, padding, groups
-        super().__init__(c1, c2, k, s, g=math.gcd(c1, c2), act=act)
 
 
 class TransformerLayer(nn.Module):
