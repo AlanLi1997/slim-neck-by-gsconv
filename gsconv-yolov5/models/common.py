@@ -91,9 +91,9 @@ class GSConvns(GSConv):
 
 class GSBottleneck(nn.Module):
     # GS Bottleneck https://github.com/AlanLi1997/slim-neck-by-gsconv
-    def __init__(self, c1, c2, k=3, s=1):
+    def __init__(self, c1, c2, k=3, s=1, e=0.5):
         super().__init__()
-        c_ = c2 // 2
+        c_ = int(c2*e)
         # for lighting
         self.conv_lighting = nn.Sequential(
             GSConv(c1, c_, 1, 1),
@@ -126,9 +126,11 @@ class VoVGSCSP(nn.Module):
         self.cv2 = Conv(c1, c_, 1, 1)
         # self.gc1 = GSConv(c_, c_, 1, 1)
         # self.gc2 = GSConv(c_, c_, 1, 1)
-        self.gsb = GSBottleneck(c_, c_, 1, 1)
+        # self.gsb = GSBottleneck(c_, c_, 1, 1)
+        self.gsb = nn.Sequential(*(GSBottleneck(c_, c_, e=1.0) for _ in range(n)))
         self.res = Conv(c_, c_, 3, 1, act=False)
         self.cv3 = Conv(2 * c_, c2, 1)  #
+
 
     def forward(self, x):
         x1 = self.gsb(self.cv1(x))
