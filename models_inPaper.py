@@ -1,4 +1,3 @@
-# Codes are updating
 """
 Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles
 paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
@@ -8,6 +7,34 @@ paper: https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf
 import torch
 import torch.nn as nn
 import math
+
+
+# GSConvE test
+class GSConvE(nn.Module):
+    '''
+    GSConv enhancement for representation learning: generate various receptive-fields and
+    texture-features only in one Conv module
+    https://github.com/AlanLi1997/slim-neck-by-gsconv
+    '''
+    def __init__(self, c1, c2, k=1, s=1, g=1, act=True):
+        super().__init__()
+        c_ = c2 // 4
+        self.cv1 = Conv(c1, c_, k, s, None, g, act)
+        self.cv2 = Conv(c_, c_, 9, 1, None, c_, act)
+        self.cv3 = Conv(c_, c_, 13, 1, None, c_, act)
+        self.cv4 = Conv(c_, c_, 17, 1, None, c_, act)
+
+    def forward(self, x):
+        x1 = self.cv1(x)
+        x2 = self.cv2(x1)
+        x3 = self.cv3(x1)
+        x4 = self.cv4(x1)
+
+        y = torch.cat((x1, x2, x3, x4), dim=1)
+        # shuffle
+        y = y.reshape(y.shape[0], 2, y.shape[1] // 2, y.shape[2], y.shape[3])
+        y = y.permute(0, 2, 1, 3, 4)
+        return y.reshape(y.shape[0], -1, y.shape[3], y.shape[4])
 
 
 def autopad(k, p=None):  # kernel, padding
@@ -44,18 +71,10 @@ class GSConv(nn.Module):
         x1 = self.cv1(x)
         x2 = torch.cat((x1, self.cv2(x1)), 1)
         # shuffle
-        # y = x2.reshape(x2.shape[0], 2, x2.shape[1] // 2, x2.shape[2], x2.shape[3])
-        # y = y.permute(0, 2, 1, 3, 4)
-        # return y.reshape(y.shape[0], -1, y.shape[3], y.shape[4])  
-        
-        b, n, h, w = x2.data.size()
-        b_n = b * n // 2
-        y = x2.reshape(b_n, 2, h * w)
-        y = y.permute(1, 0, 2)
-        y = y.reshape(2, -1, n // 2, h, w)
+        y = x2.reshape(x2.shape[0], 2, x2.shape[1] // 2, x2.shape[2], x2.shape[3])
+        y = y.permute(0, 2, 1, 3, 4)
+        return y.reshape(y.shape[0], -1, y.shape[3], y.shape[4])
 
-        return torch.cat((y[0], y[1]), 1)
- 
 
 class GSConvns(GSConv):
     # GSConv with a normative-shuffle https://github.com/AlanLi1997/slim-neck-by-gsconv
