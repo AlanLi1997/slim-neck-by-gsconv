@@ -131,7 +131,6 @@ class VoVGSCSP(nn.Module):
         self.res = Conv(c_, c_, 3, 1, act=False)
         self.cv3 = Conv(2 * c_, c2, 1)  #
 
-
     def forward(self, x):
         x1 = self.gsb(self.cv1(x))
         y = self.cv2(x)
@@ -141,8 +140,8 @@ class VoVGSCSP(nn.Module):
 class VoVGSCSPC(VoVGSCSP):
     # cheap VoVGSCSP module with GSBottleneck
     def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
-        super().__init__(c1, c2, e)
-        c_ = int(c2 * e)  # hidden channels
+        super().__init__(c1, c2)
+        c_ = int(c2 * 0.5)  # hidden channels
         self.gsb = GSBottleneckC(c_, c_, 1, 1)
 
 
