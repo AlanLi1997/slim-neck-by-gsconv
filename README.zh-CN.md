@@ -75,8 +75,8 @@ MS COCO
 
 ## 引用此工作
 @article{li2022slim,<br />
-  title={Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles},<br />
+  title={Slim-neck by GSConv: a lightweight-design for real-time detector architectures},<br />
   author={Li, Hulin and Li, Jun and Wei, Hanbing and Liu, Zheng and Zhan, Zhenfei and Ren, Qiliang},<br />
-  journal={arXiv preprint arXiv:2206.02424},<br />
-  year={2022}<br />
+  journal={Real-Time Image Proc 21, 62. https://doi.org/10.1007/s11554-024-01436-6},<br />
+  year={2024}<br />
 }
