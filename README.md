@@ -1,9 +1,8 @@
-# Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles
+# [Slim-neck by GSConv: A better design paradigm of detector architectures for autonomous vehicles](https://link.springer.com/article/10.1007/s11554-024-01436-6)
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 <br>
 
-[paper](https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf)
 
 <p align="center">
   <img src="gsconvdet.png" alt="" width="800" />
