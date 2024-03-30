@@ -1,4 +1,4 @@
-# [Slim-neck by GSConv: a lightweight-design for real-time detector architectures](https://link.springer.com/article/10.1007/s11554-024-01436-6)
+# [Slim-neck by GSConv: a lightweight-design for real-time detector architectures](https://link.springer.com/epdf/10.1007/s11554-024-01436-6?sharing_token=PnoS2pcyoX3DO53D6AhA1ve4RwlQNchNByi7wbcMAY6DXldzc1NE_k9ohttAZ9oJUMtRgKGzJKgCt4El9qua7_WrXHOS37Upe7OapcdpypW8JiIUpjiGE47a_4DijGzo3ayyfy9W1GXDjVBXCuzym29CD7lXTbN7qA1TlMK1vZU=)
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 <br>
