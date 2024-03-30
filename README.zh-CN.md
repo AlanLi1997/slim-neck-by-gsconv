@@ -1,5 +1,4 @@
-# 基于GSConv的轻量融合层：一个更好的轻量化检测器结构设计范式用于自动驾驶
-[论文](https://arxiv.org/ftp/arxiv/papers/2206/2206.02424.pdf)
+# [基于GSConv的轻量融合层：一个更好的轻量化检测器结构设计范式用于自动驾驶](https://link.springer.com/article/10.1007/s11554-024-01436-6)
 
 <p align="center">
   <img src="gsconvdet.png" alt="" width="800" />
