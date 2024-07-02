@@ -79,9 +79,13 @@ MS COCO
   - https://github.com/megvii-model/ShuffleNet-Series
 
 ## Citation
-@article{li2022slim,<br />
+@article{li2024slim,<br />
   title={Slim-neck by GSConv: a lightweight-design for real-time detector architectures},<br />
   author={Li, Hulin and Li, Jun and Wei, Hanbing and Liu, Zheng and Zhan, Zhenfei and Ren, Qiliang},<br />
-  journal={Real-Time Image Proc 21, 62. https://doi.org/10.1007/s11554-024-01436-6},<br />
-  year={2024}<br />
+  journal={Journal of Real-Time Image Processing},<br />
+  volume={21},<br />
+  number={3},<br />
+  pages={62},<br />
+  year={2024},<br />
+  publisher={Springer}<br />
 }
