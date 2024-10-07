@@ -5,7 +5,6 @@
 <p align="center">
   <img src="gsconvdet.png" alt="" width="800" />
 </p>
- 
  实验数据集:
   <br /> - PASCAL VOC 2007+12 (通用检测器)
   <br /> - WiderPerson (用于行人检测)
