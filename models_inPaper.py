@@ -65,7 +65,7 @@ class GSConv(nn.Module):
         super().__init__()
         c_ = c2 // 2
         self.cv1 = Conv(c1, c_, k, s, None, g, act)
-        self.cv2 = Conv(c_, c_, 5, 1, None, c_, act)
+        self.cv2 = Conv(c_, c_, 5, 1, 2, c_, act)
 
     def forward(self, x):
         x1 = self.cv1(x)
