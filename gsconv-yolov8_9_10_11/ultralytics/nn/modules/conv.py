@@ -137,7 +137,7 @@ class GSConvns(GSConv):
         x1 = self.cv1(x)
         x2 = torch.cat((x1, self.cv2(x1)), 1)
         # normative-shuffle, TRT supported
-        return nn.ReLU(self.shuf(x2))
+        return self.shuf(x2).relu()
 
 
 class GSBottleneck(nn.Module):
@@ -170,7 +170,7 @@ class VoVGSCSP(nn.Module):
         self.cv1 = Conv(c1, c_, 1, 1)
         # self.cv2 = Conv(c1, c_, 1, 1)
         # self.gc1 = GSConv(c_, c_, 1, 1)
-        self.gc2 = GSConv(c_, c_, 3, 1, 1)
+        self.gc2 = GSConv(c1, c_, 3, 1, 1)
         self.m = C2f(c_, c_, 1, 1)
         # self.res = Conv(c_, c_, 3, 1, act=False)
         self.cv3 = Conv(2*c_, c2, 1)  #
