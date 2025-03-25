@@ -1,5 +1,6 @@
 
-#You can run train.py to train this YOLOv8 (similar to train Yolov5)
+# You can run train.py to train this YOLOv8 (similar to train Yolov5)
+<br>
 Modify the config of the train.py, then start
 
     python train.py
