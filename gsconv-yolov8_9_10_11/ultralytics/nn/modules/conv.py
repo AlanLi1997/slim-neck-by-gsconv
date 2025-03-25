@@ -129,7 +129,7 @@ class GSConv(nn.Module):
 class GSConvns(GSConv):
     # GSConv with a normative-shuffle https://github.com/AlanLi1997/slim-neck-by-gsconv
     def __init__(self, c1, c2, k=1, s=1, p=None, g=1, d=1, act=True):
-        super().__init__(c1, c2, k=1, s=1, p=None, g=1, d=1, act=True)
+        super().__init__(c1, c2, k, s, p, g, d, act)
         c_ = c2 // 2
         self.shuf = nn.Conv2d(c_ * 2, c2, 1, 1, 0, bias=False)
 
